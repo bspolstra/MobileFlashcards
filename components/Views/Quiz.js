@@ -5,7 +5,7 @@ import {
   Card,
   Wrapper
 } from "../../assets/StyledComponents";
-import { View, Text, Button, TouchableOpacity } from "react-native";
+import { View, Text, Alert, TouchableOpacity } from "react-native";
 import { getCards } from "../../util/api";
 import styled from "styled-components";
 import AwesomeButton from "react-native-really-awesome-button";
@@ -48,6 +48,17 @@ class Quiz extends Component {
     getCards(id).then(cards => {
       this.setState({ cards });
     });
+
+    if (this.state.cards.length === 0) {
+      Alert.alert("No cards...", "Please add a card", [
+        {
+          text: "OK",
+          onPress: () => {
+            this.props.navigation.goBack();
+          }
+        }
+      ]);
+    }
 
     clearLocalNotification().then(setLocalNotifications);
   }
